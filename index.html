@@ -329,15 +329,43 @@ footer span {
     </form>
     </section>
     <section id="register">
+    <section id="register">
     <h2>Create Your MD AUYO Account</h2>
 
-    <form>
-        <input type="text" placeholder="Full Name" required>
-        <input type="tel" placeholder="Phone Number" required>
-        <input type="email" placeholder="Email Address" required>
-        <input type="password" placeholder="Create Password" required>
-        <button type="button" class="btn">Register</button>
+    <form id="registerForm">
+        <input
+            type="text"
+            id="fullName"
+            placeholder="Full Name"
+            required
+        >
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Phone Number"
+            required
+        >
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Create Password"
+            minlength="8"
+            required
+        >
+
+        <button type="submit" class="btn">Register</button>
     </form>
+
+    <p id="registerMessage"></p>
     </section>
 <section class="contact" id="contact">
     <h2>Contact MD AUYO</h2>
@@ -370,6 +398,37 @@ const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+    </script><script>
+document.getElementById('registerForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const message = document.getElementById('registerMessage');
+
+    message.textContent = 'Creating your account...';
+
+    try {
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: fullName,
+                    phone: phone
+                }
+            }
+        });
+
+        if (error) throw error;
+
+        message.textContent = 'Registration successful! Please check your email for confirmation.';
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
     </script>
 </body>
 </html>
