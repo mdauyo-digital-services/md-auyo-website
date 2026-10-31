@@ -10,7 +10,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+}<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 body {
     font-family: Arial, sans-serif;
@@ -361,5 +361,15 @@ footer span {
 <a href="https://wa.me/2347088340792" target="_blank" class="whatsapp-button">
   Chat with us on WhatsApp
 </a>
+    <script>
+const SUPABASE_URL = 'https://pbxbpipaqcrjlsnhnvwh.supabase.co';
+
+const SUPABASE_KEY = 'sb_publishable__E5Fz6sl4i_p-oP-rXzKkw_7Vrhw8wA';
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+    </script>
 </body>
 </html>
