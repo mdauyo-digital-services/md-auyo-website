@@ -121,6 +121,14 @@ section{padding:48px 6%}
   </form>
   <p id="loginMessage"></p>
   </section>
+  <section id="dashboard" style="display:none;">
+  <h2>Welcome to MD AUYO Dashboard</h2>
+  <p>Full Name: <span id="dashboardName"></span></p>
+  <p>Email: <span id="dashboardEmail"></span></p>
+  <p>Account Status: <strong>Active</strong></p>
+  <button type="button" id="logoutButton">Logout</button>
+  <p id="dashboardMessage"></p>
+  </section>
 </div>
 </section>
 <section class="contact dark" id="contact">
@@ -176,9 +184,29 @@ message.textContent = error.message || 'Registration could not be completed. Ple
     if (error) throw error;
 
     message.textContent = 'Login successful! Welcome to MD AUYO.';
+
+document.getElementById('login').style.display = 'none';
+document.getElementById('dashboard').style.display = 'block';
+
+document.getElementById('dashboardEmail').textContent = data.user.email;
+
+document.getElementById('dashboardName').textContent =
+  data.user.user_metadata.full_name || 'MD AUYO Customer';
   } catch (error) {
     message.textContent = error.message || 'Login failed. Please try again.';
   }
+});
+  document.getElementById('logoutButton').addEventListener('click', async function() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    document.getElementById('dashboardMessage').textContent = error.message;
+    return;
+  }
+
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+  document.getElementById('loginMessage').textContent = 'You have logged out successfully.';
 });
 </script>
 </body>
